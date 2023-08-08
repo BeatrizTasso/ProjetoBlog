@@ -4,7 +4,7 @@
     $id = 1;
     $nome = 'murilo';
     $email = 'murilo@gmail.com';
-    $senha = '123mudar';
+    $senha = 'ifspbri';
     $dados = [  'nome' => $nome,
                 'email' => $email,
                 'senha' => $senha];
