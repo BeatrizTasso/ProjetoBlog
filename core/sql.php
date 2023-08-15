@@ -15,7 +15,7 @@ function insert(string $entidade, array $dados) : string
 
 function update(string $entidade, array $dados, array $criterio = []) : string
 {
-    $instrucao = "UPTADE {$entidade}";
+    $instrucao = "UPDATE {$entidade}";
 
     foreach($dados as $campo => $dado){
         $set[] = "{$campo} = {$dado}";

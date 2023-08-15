@@ -10,7 +10,6 @@
     buscar_teste();
     update_teste(38, 'murilo', 'silva@gmail.com');
     buscar_teste();
-    deleta_teste(3);
 
     function insert_teste($nome, $email, $senha) : void
     {

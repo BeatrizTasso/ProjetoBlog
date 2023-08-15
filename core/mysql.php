@@ -60,6 +60,7 @@
         }
 
         $instrucao = update($entidade, $coringa_dados, $coringa_criterio);
+        echo $instrucao;
 
         $conexao = conecta();
 
