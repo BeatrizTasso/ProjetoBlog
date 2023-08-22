@@ -4,7 +4,8 @@
     {
         $retorno = false;
 
-        foreach ($dados as $campo => $dado) {
+        foreach ($dados as $campo => $dado) 
+        {
             $coringa[$campo] = '?';
             $tipo[] = gettype($dado) [0];
             $$campo = $dado;
@@ -35,13 +36,15 @@
     {
         $retorno = false;
 
-        foreach ($dados as $campo => $dado) {
+        foreach ($dados as $campo => $dado) 
+        {
             $coringa_dados[$campo] = '?';
             $tipo[] = gettype($dado) [0];
             $$campo = $dado;
         }
 
-        foreach ($criterio as $expressao) {
+        foreach ($criterio as $expressao) 
+        {
             $dado = $expressao [count($expressao) -1];
 
             $tipo[] = gettype($dado) [0];
@@ -50,7 +53,8 @@
 
             $nome_campo = (count($expressao) < 4) ? $expressao[0] : $expressao[1];
 
-            if(isset($nome_campo)) {
+            if(isset($nome_campo)) 
+            {
                 $$nome_campo = $nome_campo . ' ' . rand();
             }
 
@@ -60,7 +64,6 @@
         }
 
         $instrucao = update($entidade, $coringa_dados, $coringa_criterio);
-        echo $instrucao;
 
         $conexao = conecta();
 
@@ -85,14 +88,15 @@
 
         desconecta($conexao);
 
-        return $retorno;
+    return $retorno;
     }
 
     function deleta(string $entidade, array $criterio = []) : bool
     {
         $retorno = false;
 
-        foreach ($criterio as $expressao) {
+        foreach ($criterio as $expressao) 
+        {
             $dado = $expressao [count($expressao) -1];
 
             $tipo[] = gettype($dado) [0];
@@ -101,7 +105,8 @@
 
             $nome_campo = (count($expressao) < 4) ? $expressao[0] : $expressao[1];
 
-            if(isset($nome_campo)) {
+            if(isset($nome_campo)) 
+            {
                 $$nome_campo = $nome_campo . ' ' . rand();
             }
 
@@ -111,15 +116,17 @@
         }
         
         $instrucao = delete($entidade, $coringa_criterio);
+        echo $instrucao;    
         $conexao = conecta();
 
         $stmt = mysqli_prepare($conexao, $instrucao);
 
-        if(isset($tipo)) {
+        if(isset($tipo)) 
+        {
             $comando = 'mysqli_stmt_bind_param($stmt,';
             $comando .= '\'' . implode('', $tipo) . '\',';
             $comando .= '$' . implode(', $', $campos_criterio) . ');';
-        
+            echo $comando;
             eval($comando);
         }
 
@@ -133,7 +140,7 @@
 
         desconecta($conexao);
 
-        return $retorno;
+    return $retorno;
     }
 
     function buscar(string $entidade, array $campos = ['*'], array $criterio = [], string $ordem = null) : array
@@ -141,7 +148,8 @@
         $retorno = false;
         $coringa_criterio = [];
 
-        foreach ($criterio as $expressao) {
+        foreach ($criterio as $expressao) 
+        {
             $dado = $expressao [count($expressao) -1];
 
             $tipo[] = gettype($dado) [0];
@@ -150,7 +158,8 @@
 
             $nome_campo = (count($expressao) < 4) ? $expressao[0] : $expressao[1];
 
-            if(isset($nome_campo)) {
+            if(isset($nome_campo)) 
+            {
                 $$nome_campo = $nome_campo . ' ' . rand();
             }
 
@@ -165,7 +174,8 @@
 
         $stmt = mysqli_prepare($conexao, $instrucao);
 
-        if(isset($tipo)) {
+        if(isset($tipo)) 
+        {
             $comando = 'mysqli_stmt_bind_param($stmt,';
             $comando .= '\'' . implode('', $tipo) . '\',';
             $comando .= '$' . implode(', $', $campos_criterio) . ');';
@@ -175,7 +185,8 @@
 
         mysqli_stmt_execute($stmt);
 
-        if($result = mysqli_stmt_get_result($stmt)) {
+        if($result = mysqli_stmt_get_result($stmt)) 
+        {
             $retorno = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
             mysqli_free_result($result);
@@ -187,6 +198,6 @@
 
         desconecta($conexao);
 
-        return $retorno;
-    }
+    return $retorno;
+}
 ?>
