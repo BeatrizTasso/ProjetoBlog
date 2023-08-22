@@ -4,9 +4,9 @@
     require_once '../core/sql.php';
     require_once '../core/mysql.php';
 
-    insert_teste('rafa', 'rafaela@gmail.com', 'rafa123');
-    insert_teste('rafa', 'rafaela@gmail.com', 'rafa123');
-    insert_teste('rafa', 'rafaela@gmail.com', 'rafa123');
+    insert_teste('bibia', 'beatriz@gmail.com', 'ifsp123');
+    insert_teste('bibia', 'beatriz@gmail.com', 'ifsp123');
+    insert_teste('bibia', 'beatriz@gmail.com', 'ifsp123');
     buscar_teste();
     update_teste(38, 'murilo', 'silva@gmail.com');
     buscar_teste();
