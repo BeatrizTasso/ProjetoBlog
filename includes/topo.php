@@ -1,18 +1,16 @@
 <?php
-session_start();
+    session_start();
 ?>
 
 <div class="card">
- <div class="card-header">
-<hl> Project Blog in PHP + MySQL - IFSP - Rafael Reichenbach Gomes</hl>
-
- </div>
-<?php if(isset($_SESSION['login'])): ?>
- <div class="card-body text-right">
-
-Olá <?php echo $_SESSION['login']['usuario']['nome']?>!
-<a href="core/usuario_ repositorio.php?acac=logout"
-class="btn btn-link btn-sm" role="button">Sair</a>
- </div>
-<?php endif ?>
+    <div class="card-header">
+        <h1>Projeto Blog em PHP + MySQL IFSP - MURILO</h1>
+    </div>
+    <?php if(isset($_SESSION['login'])) : ?>
+        <div class="card-body text-right">
+            Olá <?php echo $_SESSION['login']['usuario']['nome']?>!
+            <a href="core/usuario_repositorio.php?acao=logout" 
+            class="btn btn-link btn-sm" role="button">Sair</a>
+        </div>
+        <?php endif ?>
 </div>

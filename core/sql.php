@@ -1,69 +1,68 @@
 <?php
-    function insert (string $entidade, array $dados) : String 
-    {
-    $instrucao = "INSERT INTO {$entidade}";
+session_start();
+require_once '../includes/valida_login.php';
+require_once '../includes/funcoes.php';
+require_once 'conexao_mysql.php';
+require_once 'sql.php';
+require_once 'mysql.php';
 
-    $campos = implode(', ', array_keys($dados));
-    $valores = implode(', ', array_values($dados));
-
-    $instrucao.= "({$campos})";
-    $instrucao .= " VALUES ({$valores})";
-
-    return $instrucao;
-    }
-
-
-
-    function delete (string $entidade, array $criterio = []) : String
-    {
-        $instrucao = "DELETE FROM {$entidade}";
-
-        if(!empty($criterio)){
-            $instrucao .=' WHERE ';
-
-            foreach($criterio as $expressao){
-                $instrucao .=' ' . implode(' ', $expressao);
-            }
-        }
-
-        return $instrucao;
-    }
-
-    function update (string $entidade, array $dados, array $criterio = []) : string
-    {
-        $instrucao = "UPDATE {$entidade}";
-
-        foreach ($dados as $campo => $dado)
-        {
-            $set[] = "{$campo} = {$dado}";
-        }
-        $instrucao .= ' SET ' . implode(',', $set) ;
-
-        if (!empty($criterio)){
-            $instrucao .= ' WHERE';
-            
-            foreach($criterio as $expressao) {
-                $instrucao .= ' '. implode (' ',$expressao);
-            }
-        }
-        return $instrucao;
-    }
-
-    function  select (string $entidade, array $campos, array $criterio = [], string $ordem = null) : string
-    {
-        $instrucao = " SELECT " . implode(',',$campos);
-        $instrucao .= " FROM {$entidade}";
-
-        if(!empty($criterio)){
-            $instrucao .= ' WHERE ';
-
-            foreach ($criterio as $expressao){
-                $instrucao .= ' '.implode (' ', $expressao);
-            }
-        }
-        if(!empty($ordem)){
-            $instrucao .= " ORDER BY $ordem ";
-        }
-        return $instrucao;
+foreach($_POST as $indice => $dado) {
+    $$indice = limparDados($dado);
 }
+
+foreach($_GET as $indice => $dado) {
+    $$indice = limparDados($dado);
+}
+
+$id = (int)$id;
+
+switch($acao) {
+    case 'insert':
+        $dados = [
+            'titulo' => $titulo,
+            'texto' => $texto,
+            'data_postagem' => "$data_postagem $hora_postagem",
+            'usuario_id' => $_SESSION['login'] ['usuario'] ['id']
+        ];
+
+        insere(
+            'post',
+            $dados
+        );
+
+        break;
+    case 'update':
+        $dados = [
+            'titulo' => $titulo,
+            'texto' => $texto,
+            'data_postagem' => "$data_postagem $data_postagem",
+            'usuario_id' => $_SESSION['login'] ['usuario'] ['id']
+        ];
+
+        $criterio = [
+            ['id', '=', $id]
+        ];
+
+        atualiza(
+            'post',
+            $dados,
+            $criterio
+        );
+
+        break;
+    case 'delete':
+        $criterio = [
+            ['id', '=', $id]
+        ];
+
+        deleta(
+            'post',
+            $criterio
+        );
+        
+        break;
+}
+
+header('Location: ../index.php');
+
 ?>
