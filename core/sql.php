@@ -1,68 +1,67 @@
 <?php
-session_start();
-require_once '../includes/valida_login.php';
-require_once '../includes/funcoes.php';
-require_once 'conexao_mysql.php';
-require_once 'sql.php';
-require_once 'mysql.php';
+    function insert (string $entidade, array $dados): string
+    {
+        $instrucao = "INSERT INTO {$entidade}";
 
-foreach($_POST as $indice => $dado) {
-    $$indice = limparDados($dado);
-}
+        $campos = implode(',', array_keys($dados));
+        $valores = implode(',', array_values ($dados));
 
-foreach($_GET as $indice => $dado) {
-    $$indice = limparDados($dado);
-}
+        $instrucao .= " ({$campos})";
+        $instrucao .= " VALUES ({$valores})";
 
-$id = (int)$id;
+        return $instrucao;
+    }
 
-switch($acao) {
-    case 'insert':
-        $dados = [
-            'titulo' => $titulo,
-            'texto' => $texto,
-            'data_postagem' => "$data_postagem $hora_postagem",
-            'usuario_id' => $_SESSION['login'] ['usuario'] ['id']
-        ];
+    function update (string $entidade, array $dados, array $criterio =  [] ): string
+    { 
+        $instrucao = "UPDATE {$entidade}";
 
-        insere(
-            'post',
-            $dados
-        );
+        foreach ($dados as $campo => $dado) {
+            $set[] = "{$campo} = {$dado}";
+        }
 
-        break;
-    case 'update':
-        $dados = [
-            'titulo' => $titulo,
-            'texto' => $texto,
-            'data_postagem' => "$data_postagem $data_postagem",
-            'usuario_id' => $_SESSION['login'] ['usuario'] ['id']
-        ];
+        $instrucao .= ' SET ' . implode(', ', $set);
 
-        $criterio = [
-            ['id', '=', $id]
-        ];
+        if (!empty($criterio)) { 
+            $instrucao .= ' WHERE ';
 
-        atualiza(
-            'post',
-            $dados,
-            $criterio
-        );
+            foreach ($criterio as $expressao) {
+                $instrucao .= ' ' . implode(' ', $expressao);
+            }
+        }
 
-        break;
-    case 'delete':
-        $criterio = [
-            ['id', '=', $id]
-        ];
+        return $instrucao;
+    }
 
-        deleta(
-            'post',
-            $criterio
-        );
-        
-        break;
-}
+    function delete(string $entidade, array $criterio = []) : string
+    {
+        $instrucao = "DELETE FROM {$entidade}";
+        if(!empty($criterio)) {
+            $instrucao .= ' WHERE ';
+            foreach ($criterio as $expressao) {
+                $instrucao .= ' ' . implode(' ', $expressao);
+            }
+        }
 
-header('Location: ../index.php');
+        return $instrucao;
+    }
 
+    function select(string $entidade, array $campos = ['*'], array $criterio = [], string $ordem = null) : string
+    {
+        $instrucao = "SELECT " . implode(', ', $campos);
+        $instrucao .= " FROM {$entidade}";
+
+        if(!empty($criterio)) {
+            $instrucao .= ' WHERE ';
+            foreach ($criterio as $expressao) {
+                $instrucao .= ' ' . implode(' ', $expressao);
+            }
+        }
+
+        if(!empty($ordem)) {
+            $instrucao .= " ORDER BY {$ordem}";
+        }
+
+        return $instrucao;
+    }
 ?>
