@@ -56,15 +56,13 @@
                         <div class="form-group">
                             <label for="titulo">Título</label>
                             <input class="form-control" type="text"
-                                require="required" id="titulo" name="titulo"
+                            required id="titulo" name="titulo"
                                 value="<?php echo $entidade['titulo'] ?? '' ?>" >
                         </div>
                         <div class="form-group">
                             <label for="text">Texto</label>
                             <textarea class="form-control" type="text"
-                                require="required" id="texto" name="texto" rows="5">
-                                <?php echo $entidade['texto'] ?? '' ?>
-                            </textarea>
+                                required id="texto" name="texto" rows="5"><?php echo $entidade['texto'] ?? '' ?></textarea>
                         </div>
                         <div class="form-group">
                             <label for="texto">Postar em</label>
@@ -78,14 +76,14 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <input class="form-control" type="date"
-                                    require="required"
+                                    required
                                     id="data_postagem"
                                     name="data_postagem"
                                     value="<?php echo $data ?>">
                             </div>
                             <div class="col-md-3">
                                 <input class="form-control" type="time"
-                                    require="required"
+                                    required
                                     id="hora_postagem"
                                     name="hora_postagem"
                                     value="<?php echo $hora ?>" >
